@@ -1,15 +1,14 @@
-# My Personal Home Page
+![image](https://user-images.githubusercontent.com/83835839/187029612-bcb7c237-a6bb-4289-9218-6fda318d2297.png)
 
-MyPHP will serve as a admin panel template. Use it freely.
+D.A.R.V.I.S. Application Feature Extension Plan - Phase 0:
+1. Merge old and new apps - In progress
 
+D.A.R.V.I.S. Application Feature Extension Plan - Phase 1:
+1. Decommisioning of old D.A.R.V.I.S. Application
+2. Clean up space, databases of old installation
 
-The Flask package consists of 11 applications, as listed below:
+D.A.R.V.I.S. Application Feature Extension Plan - Phase 2:
+1. Test new app, based on updated MyPHP
+2. Install new app
+3. Test on server
 
-1. `admin` - Displays the Administration dashboard.
-3. `api` - Not relevant.
-4. `auth` - Authentication application. Deals with all authentication and authorization aspects.
-5. `errors` - Deals with the display of error pages.
-6. `main` - Displays homepage.
-7. `profile` - Allows to edit user metadata.
-9. `setup` - GUI Setup for MyPHP. 
-10. `user_management` - The name is self-explanatory.
