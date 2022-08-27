@@ -7,6 +7,20 @@
         "requires": ["admin.dashboard:view"]
     },
     {
+        "application_id": "announcements",
+        "application_name": "Announcements",
+        "application_index_route": "announcements.list_announcements",
+        "icon": null,
+        "requires": ["announcements:list"]
+    },
+    {
+        "application_id": "achievements",
+        "application_name": "Achievements",
+        "application_index_route": "achievements.list_achievements",
+        "icon": null,
+        "requires": ["achievements:list"]
+    },
+    {
         "application_id": "auth",
         "application_name": "Authentication",
         "application_index_route": null,

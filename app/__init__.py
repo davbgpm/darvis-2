@@ -94,6 +94,12 @@ def create_app(config_class=Config):
     from app.user_management import bp as user_management_bp
     app.register_blueprint(user_management_bp, url_prefix='/admin/users')
 
+    from app.achievements import bp as achievements_bp
+    app.register_blueprint(achievements_bp, url_prefix='/achievements')
+
+    from app.announcements import bp as announcements_bp
+    app.register_blueprint(announcements_bp, url_prefix='/announcements')
+
     from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
 

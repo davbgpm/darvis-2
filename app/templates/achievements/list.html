@@ -1,0 +1,33 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+    <h1>achievements List</h1>
+    <div class="row">
+        {% for achievement in achievements %}
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ achievement.title }}</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                            <div class="dropdown-header">Actions:</div>
+                            <a class="dropdown-item" href="{{ url_for('achievements.edit_achievement', achievement_id=achievement.id) }}">Edit</a>
+                            <a class="dropdown-item" href="{{ url_for('achievements.delete_achievement', achievement_id=achievement.id) }}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    {{ achievement.body |safe}}
+                </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    </div>
+{% endblock %}
+

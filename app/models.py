@@ -41,6 +41,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     relogin_tokens = db.relationship('ReloginToken', backref='user', lazy='dynamic', cascade="all, delete, delete-orphan")
     roles = db.relationship('Role', backref='user', lazy='dynamic', cascade="all, delete, delete-orphan")
+    posts = db.relationship('Announcement', backref='author', lazy='dynamic')
+    created_achievements = db.relationship('Achievement', backref='creator', lazy='dynamic')
     
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -216,3 +218,39 @@ class ReloginToken(db.Model):
             return True
         else:
             return False
+
+
+class Announcement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
+    body = db.Column(db.TEXT(2400000))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Post {}>'.format(self.body)
+
+    @staticmethod
+    def get_all():
+        return Announcement.query.order_by(Announcement.timestamp.desc())
+
+
+"""
+Category <-> Achievements
+"""
+class Achievement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64)) # Title of achievement
+    body = db.Column(db.TEXT(2400000)) # Body of achievements
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    category = db.Column(db.String(64))
+    region = db.Column(db.String(64))
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Post {}>'.format(self.body)
+
+    @staticmethod
+    def get_all():
+        return Achievement.query.order_by(Achievement.timestamp.desc())
