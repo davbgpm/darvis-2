@@ -13,12 +13,15 @@ token_auth = HTTPTokenAuth()
 @basic_auth.verify_password
 def verify_password(username, password):
     user = User.query.filter_by(username=username).first()
-    if user and user.check_password(password):
+    if user and user.check_password(password) and not\
+           user.is_suspended():
         return user
+
 
 @basic_auth.error_handler
 def basic_auth_error(status):
     abort(403, "Invalid username or password")
+
 
 def generate_token(uid):
     return jwt.encode({'uid': uid,
