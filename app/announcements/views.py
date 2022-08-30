@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 
 from app import db
@@ -42,7 +42,6 @@ def add_announcements():
     
     GUI for adding announcements
     """
-    msg = ""
     form = AddAnnouncementForm()
 
     if form.validate_on_submit():
@@ -53,12 +52,12 @@ def add_announcements():
         )
         db.session.add(ann)
         db.session.commit()
-        msg = "Success! Announcement added."
+        flash("Success! Announcement added.", "success")
+        return redirect(url_for("announcements.list_announcements"))
 
     kw = {
         "title" : "Add Announcement",
         "form" : form,
-        "msg" : msg, 
         # "username" : current_user.username
     }
 
@@ -75,7 +74,6 @@ def edit_announcement(announcement_id: int):
     Args:
         announcement_id (int): ID in database of announcements
     """
-    msg = ""
 
     ann = Announcement.query.filter_by(id=announcement_id).first_or_404()
     ann_name = ann.title
@@ -85,13 +83,13 @@ def edit_announcement(announcement_id: int):
         ann.title = form.title.data
         ann.body = form.body.data
         db.session.commit()
-        msg = "Success! Page updated."
+        flash("Success! Page updated.", "success")
+        return redirect(url_for("announcements.list_announcements"))
     
     kw = {
         "title" : f"Editing '{ann_name}'",
         "form" : form,
         "ann_name" : ann_name, 
-        "msg" : msg, 
         # "username" : current_user.username
     }
 
@@ -108,7 +106,6 @@ def delete_announcement(announcement_id: int):
     Args:
         announcement_id (int): ID in database of announcements
     """
-    msg = ""
 
     ann = Announcement.query.filter_by(id=announcement_id).first_or_404()
     ann_name = ann.title
@@ -118,15 +115,15 @@ def delete_announcement(announcement_id: int):
         if form.confirmation.data.lower() == "i am sure":
             db.session.delete(ann)
             db.session.commit()
-            msg = "Success! Announcement deleted."
+            flash("Success! Page updated.", "success")
+            return redirect(url_for("announcements.list_announcements"))
         else:
-            msg = "Type 'I am sure' to proceed"
+            flash("Type the text EXACTLY as shown.", "danger")
 
     kw = {
         "title" : f"Deleting '{ann_name}'",
         "form" : form,
         "ann_name" : ann_name, 
-        "msg" : msg, 
         # "username" : current_user.username
     }
 
