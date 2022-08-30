@@ -34,6 +34,30 @@ from werkzeug.security import check_password_hash
 from app import mail
 from app.models import ReloginToken
 
+PRIV_TUP = (('admin.user_mgmt', 'add_users'), 
+            ('admin.user_mgmt', 'view_user_profile'), 
+            ('admin.user_mgmt', 'logout_user'), 
+            ('admin.user_mgmt', 'change_user_passwd'), 
+            ('admin.user_mgmt', 'edit_user_profile'), 
+            ('admin.user_mgmt', 'list_users'), 
+            ('admin.user_mgmt', 'suspend_user'), 
+            ('admin.user_mgmt', 'activate_user'), 
+            ('admin.user_mgmt', 'delete_user'), 
+            ('admin.user_mgmt', 'impersonate_user'), 
+            ('admin.user_mgmt', 'list_roles'), 
+            ('admin.user_mgmt', 'add_roles'), 
+            ('admin.user_mgmt', 'edit_roles'), 
+            ('admin.user_mgmt', 'delete_roles'), 
+            ('admin.dashboard', 'view'),
+            ('announcements', 'add'),
+            ('announcements', 'edit'),
+            ('announcements', 'delete'),
+            ('announcements', 'list'),
+            ('achievements', 'add'),
+            ('achievements', 'edit'),
+            ('achievements', 'delete'),
+            ('achievements', 'list'))
+
 def relogin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

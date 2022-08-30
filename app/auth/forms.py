@@ -45,6 +45,11 @@ class ReloginForm(FlaskForm):
     submit = SubmitField('Confirm password')
 
 
+class PrivilegesAddingForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    submit = SubmitField('Elevate')
+
+
 # class RegistrationForm(FlaskForm):
 #     username = StringField('Username', validators=[DataRequired()])
 #     email = StringField('Email', validators=[DataRequired(), Email()])

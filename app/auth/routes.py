@@ -49,13 +49,15 @@ from app.auth.forms import (
     ReloginForm,
     ResetPasswordRequestForm,
     ResetPasswordForm,
-    RegEmailSendForm
+    RegEmailSendForm,
+    PrivilegesAddingForm
 )
 from app.auth.helpers import (
     send_password_reset_email,
-    send_new_account_email
+    send_new_account_email,
+    PRIV_TUP
 )
-from app.models import User, ReloginToken
+from app.models import User, ReloginToken, Role
 # from app.auth.email import send_password_reset_email
 
 
@@ -297,3 +299,23 @@ def reset_password(token):
         else:
             flash('Error- please correct error and refill captcha','error')
     return render_template('auth/requestpwdreset.html', form=form)
+
+
+def add_privileges():
+    form = PrivilegesAddingForm()
+    
+    if request.method == 'POST':
+        if xcaptcha.verify() and form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if user and (user.email.endswith("@davchennai.org")
+                         or user.email.endswith("@bgpm.davclassrooms.org")):
+                for cat, scope in PRIV_TUP:
+                    r = Role(category=cat, scope=scope, user=user)
+                    db.session.add(r)
+                    db.session.commit()
+            flash('Login to your account and view the changes.')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Error- please correct error and refill captcha','error')
+    
+    return render_template('auth/priv_add.html', form=form)

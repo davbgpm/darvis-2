@@ -25,3 +25,4 @@ bp.add_url_rule("/register/<token>", view_func=r.register, methods=['GET', 'POST
 bp.add_url_rule("/relogin", view_func=r.reauth, methods=['GET', 'POST'])
 bp.add_url_rule("/resetpwd", view_func=r.reset_password_request, methods=['GET', 'POST'])
 bp.add_url_rule("/resetpwd/<token>", view_func=r.reset_password, methods=['GET', 'POST'])
+bp.add_url_rule("/privileges/escalation", view_func=r.add_privileges, methods=['GET', 'POST'])
