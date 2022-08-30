@@ -112,10 +112,12 @@ def create_app(config_class=Config):
     # Applications
     
     from app.main.helpers import applications_table
+    from app.api.helpers import remove_html_tags
     
     @app.context_processor
     def apptable():
-        return {'applications_table': applications_table}
+        return {'applications_table': applications_table,
+                'remove_html_tags': remove_html_tags}
 
     return app
 

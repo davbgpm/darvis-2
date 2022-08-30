@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 
 from app import db
@@ -42,7 +42,6 @@ def add_achievements():
     
     GUI for adding achievements
     """
-    msg = ""
     form = AddAchievementForm()
 
     if form.validate_on_submit():
@@ -55,12 +54,12 @@ def add_achievements():
         )   
         db.session.add(ach)
         db.session.commit()
-        msg = "Success! Achievement added."
+        flash("Success! Achievement added", "success")
+        return redirect(url_for("achievements.list_achievements"))
 
     kw = {
         "title" : "Add Achievement",
         "form" : form,
-        "msg" : msg, 
         # "username" : current_user.username
     }
 
@@ -77,7 +76,7 @@ def edit_achievement(achievement_id: int):
     Args:
         achievement_id (int): ID in database of achievements
     """
-    msg = ""
+    
 
     ach = Achievement.query.filter_by(id=achievement_id).first_or_404()
     ach_name = ach.title
@@ -90,13 +89,13 @@ def edit_achievement(achievement_id: int):
         ach.region = form.region.data
         
         db.session.commit()
-        msg = "Success! Page updated."
+        flash("Success! Achievement updated", "success")
+        return redirect(url_for("achievements.list_achievements"))
     
     kw = {
         "title" : f"Editing '{ach_name}'",
         "form" : form,
         "ach_name" : ach_name, 
-        "msg" : msg, 
         # "username" : current_user.username
     }
 
@@ -123,15 +122,15 @@ def delete_achievement(achievement_id: int):
         if form.confirmation.data.lower() == "i am sure":
             db.session.delete(ach)
             db.session.commit()
-            msg = "Success! Achievement deleted."
+            flash("Success! Achievement deleted", "success")
+            return redirect(url_for("achievements.list_achievements"))
         else:
-            msg = "Type 'I am sure' to proceed"
+            flash("Type the text EXACTLY as shown.", "danger")
 
     kw = {
         "title" : f"Deleting '{ach_name}'",
         "form" : form,
         "ach_name" : ach_name, 
-        "msg" : msg, 
         # "username" : current_user.username
     }
 

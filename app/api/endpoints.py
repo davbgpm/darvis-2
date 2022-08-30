@@ -5,6 +5,7 @@ from flask_restful import (
     reqparse
 )
 
+from app import db
 from app.api.auth import basic_auth, generate_token, token_auth
 from app.models import Announcement, Achievement
 from app.api.helpers import remove_html_tags
@@ -31,6 +32,17 @@ class ActiveUser(Resource):
             "display_name": user.get_name(),
             "email": user.email
         }
+
+
+class LogoutUser(Resource):
+    decorators = [token_auth.login_required]
+    def get(self):
+        user = token_auth.current_user()
+        user.generate_uid()
+        db.session.commit()
+        return {
+                "message": "OK"
+            }
 
 
 class GetAllAnnouncements(Resource):
