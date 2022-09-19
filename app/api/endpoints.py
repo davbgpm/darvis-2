@@ -1,3 +1,6 @@
+import json
+import base64
+
 from flask import request
 from flask import abort
 from flask_restful import (
@@ -9,6 +12,7 @@ from app import db
 from app.api.auth import basic_auth, generate_token, token_auth
 from app.models import Announcement, Achievement
 from app.api.helpers import remove_html_tags, secure_link as url_for
+import app.achievements.roles as achievements_roles
 
 
 class Login(Resource):
@@ -43,6 +47,57 @@ class LogoutUser(Resource):
         return {
                 "message": "OK"
             }
+
+
+class ImportData(Resource):
+    decorators = [token_auth.login_required]
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('target', type = str, required = True,
+            help = 'Datatype is invalid, consult docs', location = 'json')
+        self.reqparse.add_argument('b64data', type = str, required = True,
+            help = 'No password provided', location = 'json')
+        super().__init__()
+    
+    def post(self):
+        user = token_auth.current_user()
+        data = request.get_json()
+        if data["target"] == "achievements":
+            if user.can_do("achievements", "add"):
+                achdata = base64.b64decode(data["b64data"]).decode("utf-8")
+                # **data, "d": json.loads(achdata)}
+                jdatas = json.loads(achdata)
+                for jdata in jdatas:
+                    ach = Achievement(
+                        title = jdata["title"],
+                        body = jdata["body"],
+                        user_id = user.id,
+                        category = data["achievement"]["category"],
+                        region = data["achievement"]["region"],
+                    )   
+                    db.session.add(ach)
+                db.session.commit()
+                return "OK"
+            else:
+                abort(403, "Insufficient privilleges")
+        elif data["target"] == "announcements":
+            if user.can_do("announcements", "add"):
+                adata = base64.b64decode(data["b64data"]).decode("utf-8")
+                # **data, "d": json.loads(achdata)}
+                jdatas = json.loads(adata)
+                for jdata in jdatas:
+                    a = Announcement(
+                        title = jdata["title"],
+                        body = jdata["body"],
+                        user_id = user.id,
+                    )   
+                    db.session.add(a)
+                db.session.commit()
+                return "OK"
+            else:
+                abort(403, "Insufficient privilleges")
+        else:
+            abort(400, "No such target")
 
 
 class GetAllAnnouncements(Resource):

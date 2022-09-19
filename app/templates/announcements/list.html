@@ -10,7 +10,8 @@
                 </button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item {% if not current_user.can_do("announcements", "add") %}disabled{% endif %}" href="{{ url_for('announcements.add_announcements') }}">Add</a>
-                    <a class="dropdown-item disabled" href="#">Import</a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#clientDownloadModal" onclick="window.open('https://github.com/amsdc/darvisclient/releases/latest/download/darvisclient.exe', '_blank');">Import</a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#clientDownloadModal" onclick="window.open('https://github.com/amsdc/darvisclient/releases/latest/download/darvisclient.exe', '_blank');">Export</a>
                 </div>
               </div> 
         </div>
@@ -35,7 +36,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    {{ announcement.body }}
+                    {{ remove_html_tags(announcement.body)[:101] }}
                 </div>
             </div>
         </div>
