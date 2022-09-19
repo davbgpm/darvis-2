@@ -40,6 +40,8 @@ class Config(object):
     
     SESSION_COOKIE_NAME = "myphp_session"
     REMEMBER_COOKIE_NAME = "myphp_remember_token"
+    
+    API_LINKS_SCHEME = os.environ.get('API_LINKS_SCHEME') or 'http'
 
     # SESSION_TYPE = "filesystem"
     # SESSION_FILE_DIR = "C:\\Users\\advai\\OneDrive\\Documents\\Programmed tools\\myphp\\.session-data\\"

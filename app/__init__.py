@@ -101,6 +101,9 @@ def create_app(config_class=Config):
 
     from app.announcements import bp as announcements_bp
     app.register_blueprint(announcements_bp, url_prefix='/announcements')
+    
+    from app.external import bp as external_bp
+    app.register_blueprint(external_bp, url_prefix='/www/public')
 
     from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')

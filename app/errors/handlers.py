@@ -43,4 +43,4 @@ def permission_denied_error(e):
         return render_template("errors/generic.html",
                                name=e.name, 
                                description=e.description,
-                               version=__version__)
+                               version=__version__), e.code

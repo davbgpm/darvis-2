@@ -8,7 +8,7 @@ from flask_restful import (
 from app import db
 from app.api.auth import basic_auth, generate_token, token_auth
 from app.models import Announcement, Achievement
-from app.api.helpers import remove_html_tags
+from app.api.helpers import remove_html_tags, secure_link as url_for
 
 
 class Login(Resource):
@@ -99,7 +99,7 @@ class GetAchievementsShort(Resource):
             return_obj.append({
                 "title": ach.title,
                 "body": remove_html_tags(" ".join(ach.body.split()[:noofwords + 1])),
-                "url": url_for("external.view_achievement", achievement_id=ach.id, _external=True),
+                "url": url_for("external.view_achievement", achievement_id=ach.id),
                 "timestamp": ach.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
             })
         
@@ -121,7 +121,7 @@ class GetAllAchievementsShort(Resource):
             return_obj.append({
                 "title": ach.title,
                 "body": remove_html_tags(" ".join(ach.body.split()[:noofwords + 1])),
-                "url": url_for("external.view_achievement", achievement_id=ach.id, _external=True),
+                "url": url_for("external.view_achievement", achievement_id=ach.id),
                 "timestamp": ach.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
             })
         
