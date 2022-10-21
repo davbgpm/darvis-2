@@ -11,7 +11,7 @@ from flask_restful import (
 from app import db
 from app.api.auth import basic_auth, generate_token, token_auth
 from app.models import Announcement, Achievement
-from app.api.helpers import remove_html_tags, secure_link as url_for
+from app.api.helpers import remove_html_tags, secure_link as url_for, clickable_links
 import app.achievements.roles as achievements_roles
 
 
@@ -112,7 +112,7 @@ class GetAllAnnouncements(Resource):
         for ann in Announcement.get_all():
             return_obj.append({
                 "title" : ann.title,
-                "body" : ann.body,
+                "body" : clickable_links(ann.body),
                 "timestamp" : ann.timestamp.strftime("%Y-%m-%d %H:%M:%S")
             })
         
