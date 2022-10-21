@@ -10,6 +10,7 @@ from app.announcements.forms import (
 )
 from app.announcements import roles as permissions
 from app.announcements import bp
+from app.announcements.helpers import send_message
 
 
 #@bp.route("/")
@@ -52,6 +53,7 @@ def add_announcements():
         )
         db.session.add(ann)
         db.session.commit()
+        send_message(ann)
         flash("Success! Announcement added.", "success")
         return redirect(url_for("announcements.list_announcements"))
 

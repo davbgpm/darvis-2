@@ -52,6 +52,10 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['your-email@example.com']
+    
+    TELEGRAM_BOTAPI_USE = os.environ.get("TELEGRAM_BOTAPI_USE") is not None
+    TELEGRAM_BOTAPI_KEY = os.environ.get('TELEGRAM_BOTAPI_KEY')
+    TELEGRAM_BOTAPI_CHANNEL = os.environ.get("TELEGRAM_BOTAPI_CHANNEL")
 
     # Leave as is.
     MYPHP_SETUP = True if str(os.environ.get('MYPHP_SETUP')).lower() == \
