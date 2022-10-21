@@ -23,16 +23,10 @@ from app.errors import bp
 
 @bp.app_errorhandler(PermissionDenied)
 def permission_denied_error(e):
-    exc = []
-    for need in e.args[0].needs:
-        exc.append((need.method.title(), need.value))
-
-    op = "<h1>403 Permission denied!!</h1>"
-    op += "<p>The following permissions are required:</p><ul>"
-    for ex in exc:
-        op+=f"<li>{ex[0]}, {ex[1]}</li>"
-    op+="</ul>"
-    return op, 403
+    exc = [(need.method.title(), need.value) for need in e.args[0].needs]
+    # for need in e.args[0].needs:
+    #     exc.append((need.method.title(), need.value))
+    return render_template("errors/403.html", permissions=exc), 403
 
 @bp.app_errorhandler(HTTPException)
 def permission_denied_error(e):
