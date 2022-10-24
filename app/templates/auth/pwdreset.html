@@ -1,0 +1,73 @@
+{% extends "auth/base.html" %}
+
+{% block title %}Reset Password{% endblock %}
+
+<!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card border-0 shadow rounded-3 my-5">
+                    <div class="card-body p-4 p-sm-5">
+                        <h5 class="card-title text-center mb-5 fw-light display-3">
+                            Reset Password
+                        </h5>
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <p>Forgot your password? No problem, get it reset here:</p>
+                        <form action="" method="post">
+                            {{ form.hidden_tag() }}
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3">
+                                    {% if form.password.errors %}
+                                        {{ form.password(id="password", class="form-control is-invalid") }}
+                                    {% else %}
+                                        {{ form.password(id="password", class="form-control") }}
+                                    {% endif %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.password.errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    <label for="password">{{ form.password.label }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3">
+                                    {% if form.password2.errors %}
+                                        {{ form.password2(id="password2", class="form-control is-invalid") }}
+                                    {% else %}
+                                        {{ form.password2(id="password2", class="form-control") }}
+                                    {% endif %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.password2.errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    <label for="password2">{{ form.password2.label }}</label>
+                                </div>
+                            </div>
+
+
+                            {{ xcaptcha }}
+                            <div class="d-grid">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    {{ form.submit(class="btn btn-primary btn-login text-uppercase fw-bold") }}
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

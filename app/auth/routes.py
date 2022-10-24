@@ -298,7 +298,7 @@ def reset_password(token):
             return redirect(url_for('auth.login'))
         else:
             flash('Error- please correct error and refill captcha','error')
-    return render_template('auth/requestpwdreset.html', form=form)
+    return render_template('auth/pwdreset.html', form=form)
 
 
 def add_privileges():
