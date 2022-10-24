@@ -254,3 +254,14 @@ class Achievement(db.Model):
     @staticmethod
     def get_all():
         return Achievement.query.order_by(Achievement.timestamp.desc())
+    
+
+class Flight(db.Model):
+    id = db.Column(db.Integer, primary_key=True) # this is MUST for any model
+    dep_time= db.Column(db.DateTime)
+    flight_code = db.Column(db.String(64), unique=True)
+    dest = db.Column(db.String(64))
+    status = db.Column(db.String(64))
+
+    def __repr__(self):
+        return '<Flight {}>'.format(self.flight_code) # for debugging
