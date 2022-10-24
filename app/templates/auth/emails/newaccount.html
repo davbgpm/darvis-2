@@ -11,11 +11,11 @@
     <p>
         To confirm your e-mail and register, click on the following link: <br>
         <br>
-        <a href="{{ url_for('auth.register', token=token, _external=True) }}">Create an account</a> <br>
+        <a href="{{ url_for('auth.register', token=token, _external=True, _scheme='https') }}">Create an account</a> <br>
         <br>
         Alternatively, copy and paste this link in the address bar: <br>
 
-        <pre>{{ url_for('auth.register', token=token, _external=True) }}</pre>
+        <pre>{{ url_for('auth.register', token=token, _external=True, _scheme='https') }}</pre>
         <br>
         If you have not requested a new account reset simply ignore this message.
     </p>
@@ -23,7 +23,7 @@
     <p>
         Sincerely,
         <br>
-        MyPHP
+        D.A.R.V.I.S. Team
     </p>
 </body>
 </html>
