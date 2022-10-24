@@ -1,0 +1,82 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+    <div class="row">
+        <h1>Flights</h1>
+        <div class="col-12" style="margin-top:20px;">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Flights List</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-header">Actions:</div>
+                                {% if current_user.can_do("fids", "add_flights") %}<a class="dropdown-item" href="{{ url_for('fids.add') }}">Add</a>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Departs at</th>
+                                        <th>Flight code</th>
+                                        <th>Destination</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Departs at</th>
+                                        <th>Flight code</th>
+                                        <th>Destination</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    {% for f in data %}
+                                    <tr>
+                                        <td>{{ f.id }}</td>
+                                        <td>{{ f.dep_time.strftime("%c") }}</td>
+                                        <td>{{ f.flight_code }}</td>
+                                        <td>{{ f.dest }}</td>
+                                        <td>{{ f.status }}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                {% if current_user.can_do("fids", "edit_flights") %}
+                                                <a class="btn btn-warning" href="{{ url_for('fids.edit', id=f.id) }}">Edit</a>
+                                                {% endif %}
+                                                {% if current_user.can_do("fids", "delete_flights") %}
+                                                <a class="btn btn-danger" href="{{ url_for('fids.delete', id=f.id) }}">Delete</a>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+            
+
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+<!-- Page level plugins -->
+<script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+{% endblock %}

@@ -107,6 +107,9 @@ def create_app(config_class=Config):
 
     from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
+    
+    from app.fids import bp as fids_bp
+    app.register_blueprint(fids_bp, url_prefix='/fids')
 
     if app.config["MYPHP_SETUP"]:
         from app.setup import bp as setup_bp
