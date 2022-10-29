@@ -1,7 +1,7 @@
 import json
 import base64
 
-from flask import request
+from flask import request, current_app
 from flask import abort
 from flask_restful import (
     Resource,  
@@ -11,17 +11,32 @@ from flask_restful import (
 from app import db
 from app.api.auth import basic_auth, generate_token, token_auth
 from app.models import Announcement, Achievement
-from app.api.helpers import remove_html_tags, secure_link as url_for, clickable_links
+from app.api.helpers import remove_html_tags, secure_link as url_for, clickable_links, generate_captcha, check_captcha
 import app.achievements.roles as achievements_roles
 
+
+class CaptchaGen(Resource):
+    def get(self):
+        i, t = generate_captcha()
+        
+        return {
+            "img": base64.b64encode(i.read()).decode('utf-8'),
+            "tkn": t
+        }
 
 class Login(Resource):
     decorators = [basic_auth.login_required]
     def get(self):
+        if current_app.config["FERNET_KEY"] is not None:
+            token = request.get_json()["captcha_token"]
+            ans = request.get_json()["answer"]
+            if not check_captcha(token, ans):
+                abort(400, "Answer to CAPTCHA incorrect or has expired.")
         user = basic_auth.current_user()
         return {
             "token": user.generate_token()
         }
+        
 
 
 class ActiveUser(Resource):

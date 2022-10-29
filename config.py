@@ -56,6 +56,8 @@ class Config(object):
     TELEGRAM_BOTAPI_USE = os.environ.get("TELEGRAM_BOTAPI_USE") is not None
     TELEGRAM_BOTAPI_KEY = os.environ.get('TELEGRAM_BOTAPI_KEY')
     TELEGRAM_BOTAPI_CHANNEL = os.environ.get("TELEGRAM_BOTAPI_CHANNEL")
+    
+    FERNET_KEY = os.environ.get("FERNET_KEY")
 
     # Leave as is.
     MYPHP_SETUP = True if str(os.environ.get('MYPHP_SETUP')).lower() == \
