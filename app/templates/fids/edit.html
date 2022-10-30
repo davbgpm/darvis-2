@@ -1,0 +1,11 @@
+{% from 'bootstrap/form.html' import render_form %}
+{% extends "admin_base.html" %}
+
+{% block content %}
+    {% if flight_id %}
+    <h1>Edit Flight - {{ flight_id }}</h1>
+    {% else %}
+    <h1>Add Flight</h1>
+    {% endif %}
+    {{ render_form(form) }}
+{% endblock %}
