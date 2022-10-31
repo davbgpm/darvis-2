@@ -25,13 +25,65 @@
                         <p>Users who have a DAV Chennai e-mail address are eligible for a privilege escalation. If you are eligible, use this form to add those privileges.</p>
                         <form action="" method="post">
                             {{ form.hidden_tag() }}
-                            <div class="form-floating mb-3">
-                                {{ form.username(id="username", class="form-control") }}
-                                <label for="username">{{ form.username.label }}</label>
-                                {% for error in form.username.errors %}
-                                <br>
-                                <span class="alert alert-danger" role="alert">{{ error }}</span>
-                                {% endfor %}
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3">
+                                    {% if form.username.errors %}
+                                        {{ form.username(id="username", class="form-control is-invalid", autocomplete="off") }}
+                                    {% else %}
+                                        {{ form.username(id="username", class="form-control", autocomplete="off") }}
+                                    {% endif %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.username.errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {{ form.username.label }}
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    {{ form.secret1.label }}
+                                    {% if form.secret1.errors %}
+                                        {{ form.secret1(id="username", class="form-control is-invalid", autocomplete="off") }}
+                                    {% else %}
+                                        {{ form.secret1(id="username", class="form-control", autocomplete="off") }}
+                                    {% endif %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.secret1.errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    {{ form.secret2.label }}
+                                    {% if form.secret2.errors %}
+                                        {{ form.secret2(id="username", class="form-control is-invalid", autocomplete="off") }}
+                                    {% else %}
+                                        {{ form.secret2(id="username", class="form-control", autocomplete="off") }}
+                                    {% endif %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.secret2.errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    {{ form.secret3.label }}
+                                    {% if form.secret3.errors %}
+                                        {{ form.secret3(id="username", class="form-control is-invalid", autocomplete="off") }}
+                                    {% else %}
+                                        {{ form.secret3(id="username", class="form-control", autocomplete="off") }}
+                                    {% endif %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.secret3.errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
 
                             {{ xcaptcha }}

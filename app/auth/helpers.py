@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along
 # with MyPHP. If not, see <https://www.gnu.org/licenses/>. 
 
+import json
+
 from functools import wraps
 import threading
 
@@ -144,3 +146,8 @@ def send_new_account_email(email_id, token):
                                          email=email_id, token=token),
                html_body=render_template('auth/emails/newaccount.html',
                                          email=email_id, token=token))
+
+def get_secretqns():
+    with open(current_app.config["SECRET_QUESTIONS"]) as f:
+        d = json.load(f)
+        return d
