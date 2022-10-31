@@ -12,5 +12,5 @@ class AddFlightForm(FlaskForm):
     submit = SubmitField("Submit")
     
     def validate_flight_code(self, val):
-        if Flight.query.filter_by(flight_code = val).first():
+        if Flight.query.filter_by(flight_code = val.data).first():
             raise ValidationError("flight already existent")
