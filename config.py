@@ -58,6 +58,8 @@ class Config(object):
     TELEGRAM_BOTAPI_CHANNEL = os.environ.get("TELEGRAM_BOTAPI_CHANNEL")
     
     FERNET_KEY = os.environ.get("FERNET_KEY")
+    
+    SECRET_QUESTIONS = "secret_questions.json"
 
     # Leave as is.
     MYPHP_SETUP = True if str(os.environ.get('MYPHP_SETUP')).lower() == \

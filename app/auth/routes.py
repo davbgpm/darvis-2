@@ -15,6 +15,8 @@
 
 import typing as t
 import time
+from webbrowser import get
+import random
 
 from flask import (
     render_template,
@@ -38,6 +40,7 @@ from flask_principal import (
 )
 import jwt
 from werkzeug.security import generate_password_hash
+from wtforms.fields import Label as WTF_Label
 
 from app import db
 from app import xcaptcha
@@ -55,6 +58,7 @@ from app.auth.forms import (
 from app.auth.helpers import (
     send_password_reset_email,
     send_new_account_email,
+    get_secretqns,
     PRIV_TUP
 )
 from app.models import User, ReloginToken, Role
@@ -302,12 +306,22 @@ def reset_password(token):
 
 
 def add_privileges():
+    all_qns = get_secretqns()
     form = PrivilegesAddingForm()
     
     if request.method == 'POST':
         if xcaptcha.verify() and form.validate_on_submit():
             user = User.query.filter_by(username=form.username.data).first()
-            if user and (user.email.endswith("@davchennai.org")
+            
+            # secret qns
+            test = (all_qns[form.hidden1.data] == form.secret1.data.lower() 
+                and all_qns[form.hidden2.data] == form.secret2.data.lower() 
+                and all_qns[form.hidden3.data] == form.secret3.data.lower())
+            
+            print(test)
+            
+            
+            if user and test and (user.email.endswith("@davchennai.org")
                          or user.email.endswith("@bgpm.davclassrooms.org")):
                 for cat, scope in PRIV_TUP:
                     r = Role(category=cat, scope=scope, user=user)
@@ -317,5 +331,13 @@ def add_privileges():
             return redirect(url_for('auth.login'))
         else:
             flash('Error- please correct error and refill captcha','error')
+    else:
+        qns = random.sample(sorted(all_qns), 3)
+        form.secret1.label = WTF_Label(field_id="secret1", text=qns[0])
+        form.secret2.label = WTF_Label(field_id="secret2", text=qns[1])
+        form.secret3.label = WTF_Label(field_id="secret3", text=qns[2])
+        form.hidden1.data = qns[0]
+        form.hidden2.data = qns[1]
+        form.hidden3.data = qns[2]
     
     return render_template('auth/priv_add.html', form=form)

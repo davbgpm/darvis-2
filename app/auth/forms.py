@@ -12,9 +12,8 @@
 
 # You should have received a copy of the GNU General Public License along
 # with MyPHP. If not, see <https://www.gnu.org/licenses/>. 
-
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, HiddenField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 # from flask_babel import _, lazy_gettext as _l
 
@@ -47,6 +46,12 @@ class ReloginForm(FlaskForm):
 
 class PrivilegesAddingForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
+    secret1 = StringField("Error - please contact D.A.R.V.I.S. Admin", validators=[DataRequired()])
+    secret2 = StringField("Error - please contact D.A.R.V.I.S. Admin", validators=[DataRequired()])
+    secret3 = StringField("Error - please contact D.A.R.V.I.S. Admin", validators=[DataRequired()])
+    hidden1 = HiddenField()
+    hidden2 = HiddenField()
+    hidden3 = HiddenField()
     submit = SubmitField('Elevate')
 
 
